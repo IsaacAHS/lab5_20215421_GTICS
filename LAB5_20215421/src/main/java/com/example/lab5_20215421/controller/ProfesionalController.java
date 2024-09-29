@@ -52,7 +52,7 @@ public class ProfesionalController {
         model.addAttribute(("listaArea"), areaRepository.findAll());
         model.addAttribute(("listaSede"), areaRepository.findAll());
 
-        return "floreria/catalogo";
+        return "preofesional/";
     }
 
 
