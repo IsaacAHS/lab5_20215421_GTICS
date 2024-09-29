@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index.html :: cabecera(titulo= 'Profesionales')"></head>
+<body>
+<header th:replace="index.html :: header(title= 'profesionales')"></header>
+<main>
+    <div class="container px-4 py-5">
+        <h1 class="pb-2 border-bottom">Lista de Profesionales</h1>
+        <div class="d-flex mt-3 mb-4">
+            <a class="btn btn-secondary ms-auto" th:href="@{'/'}">Regresar</a>
+        </div>
+
+        <!-- Formulario de filtros -->
+        <form method="get" th:action="@{/buscarPro}" class="mb-4">
+            <div class="row">
+                <!-- Filtro area-->
+                <div class="col-md-4">
+                    <label for="area" class="form-label">Color</label>
+                    <select id="area" name="area" class="form-select">
+                        <option th:each="area: ${listaArea}"
+                                th:text="${area.nombre}" th:value="${area.id}">Abrir</option>
+
+                    </select>
+                </div>
+
+                <!-- Filtro sede -->
+                <div class="col-md-4">
+                    <label for="sede" class="form-label">Sede</label>
+                    <select id="sede" name="sede" class="form-select">
+                        <option th:each="sede: ${listaSede}"
+                                th:text="${sede.nombre}" th:value="${sede.id}">Abrir</option>
+
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Botón para aplicar los filtros -->
+            <div class="d-flex mt-3">
+                <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+            </div>
+        </form>
+
+        <!-- Resultados de flores filtradas -->
+        <div class="row">
+            <div class="col-md-4" th:each="profesional, info : ${listaProfesionales}">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${profesional.name}">Nombre</h5>
+                        <p class="card-text">
+                            <img th:src="${profesional.imagen}" alt="Imagen de la flor" style="max-width: 100%; height: auto;"><br>
+                            <strong>Area:</strong> <span th:text="${profesional.area.nombre}">Precio</span><br>
+                            <strong>Sede:</strong> <span th:text="${profesional.sede.nombre}">Stock</span><br>
+                            <strong>Descripción:</strong> <span th:text="${profesional.descrip}">Descripción</span><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

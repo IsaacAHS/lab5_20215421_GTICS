@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index.html :: cabecera(titulo= 'Citas')"></head>
+<body>
+<header th:replace="index.html :: header(title= 'pcitas')"></header>
+<main>
+    <div class="container px-4 py-5">
+        <h1 class="pb-2 border-bottom">Lista de Flores</h1>
+        <div class="d-flex mt-3 mb-4">
+            <a class="btn btn-secondary ms-auto" th:href="@{'/'}">Regresar</a>
+        </div>
+
+        <!-- Formulario de filtros -->
+        <form method="get" th:action="@{/floreria/buscarFlor}" class="mb-4">
+            <div class="row">
+                <!-- Filtro por color -->
+                <div class="col-md-4">
+                    <label for="color" class="form-label">Color</label>
+                    <select id="color" name="color" class="form-select">
+                        <option th:each="color: ${listaColor}"
+                                th:text="${color.nombrecolor}" th:value="${color.id}">Abrir</option>
+
+                    </select>
+                </div>
+
+                <!-- Filtro por tipo -->
+                <div class="col-md-4">
+                    <label for="tipo" class="form-label">Tipo</label>
+                    <select id="tipo" name="tipo" class="form-select">
+                        <option th:each="tipo: ${listaTipo}"
+                                th:text="${tipo.nombretipo}" th:value="${tipo.id}">Abrir</option>
+
+                    </select>
+                </div>
+
+                <!-- Filtro por ocasión -->
+                <div class="col-md-4">
+                    <label for="ocasion" class="form-label">Ocasión</label>
+                    <select id="ocasion" name="ocasion" class="form-select">
+                        <option th:each="ocasion: ${listaOcasion}"
+                                th:text="${ocasion.nombreocasion}" th:value="${ocasion.id}">Abrir</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Botón para aplicar los filtros -->
+            <div class="d-flex mt-3">
+                <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+            </div>
+        </form>
+
+        <!-- Resultados de flores filtradas -->
+        <div class="row">
+            <div class="col-md-4" th:each="flor, info : ${listaProductos}">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${flor.tipo.nombretipo}+' '+${flor.color.nombrecolor}+' '+'para'+' '+${flor.ocasion.nombreocasion}">#Orden</h5>
+                        <p class="card-text">
+                            <img th:src="${flor.imagen}" alt="Imagen de la flor" style="max-width: 100%; height: auto;"><br>
+                            <strong>Precio: s/.</strong> <span th:text="${flor.precio}">Precio</span><br>
+                            <strong>Stock:</strong> <span th:text="${flor.stock}">Stock</span><br>
+                            <strong>Descripción:</strong> <span th:text="${flor.descripcion}">Descripción</span><br>
+                        </p>
+                        <a class="btn btn-primary" th:href="@{'/floreria/agregar?id=' + ${flor.id}}">Agregar</a>
+                        <a class="btn btn-primary" th:href="@{'/floreria/quitar?id=' + ${flor.id}}">Quitar</a>
+                        <a class="btn btn-primary" th:href="@{'/floreria/comprar?id=' + ${flor.id}}">Comprar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
